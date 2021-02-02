@@ -67,10 +67,10 @@ class Auth extends BaseController
             return redirect()->to('/user');
         }
         $data = [
-            'title' => 'Login',
+            'title' => 'Forgot Password',
             'validation' => \Config\Services::validation()
         ];
-        return view('auth/login', $data);
+        return view('auth/forgot-password', $data);
     }
 
     public function verify()
@@ -101,6 +101,48 @@ class Auth extends BaseController
             session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Wrong email</div>');
             return redirect()->to('/');
         }
+    }
+    public function resetpassword()
+    {
+        $email = $this->request->getVar('email');
+        $token = $this->request->getVar('token');
+        $user = $this->db->table('user')->getWhere(['email' => $email])->getRowArray();
+        if ($user) {
+            $user_token = $this->db->table('user_token')->getWhere([
+                'email' => $email,
+                'token' => $token
+            ])->getRowArray();
+            if ($user_token) {
+                if ((time() - $user_token['date_created']) < (60 * 10)) {
+                    session()->set('reset_email', $email);
+                    return redirect()->to('/auth/changepassword');
+                } else {
+                    $this->db->table('user_token')->delete(['email' => $email]);
+                    session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Token expired.</div>');
+                    return redirect()->to('/auth/forgotpassword');
+                }
+            } else {
+                session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Wrong token or email</div>');
+                return redirect()->to('/auth/forgotpassword');
+            }
+        } else {
+            session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Wrong email</div>');
+            return redirect()->to('/auth/forgotpassword');
+        }
+    }
+    public function changepassword()
+    {
+        if (session()->get('role_id')) {
+            return redirect()->to('/user');
+        }
+        if (!session()->get('reset_email')) {
+            return redirect()->to('/');
+        }
+        $data = [
+            'title' => 'Change Password',
+            'validation' => \Config\Services::validation()
+        ];
+        return view('auth/change-password', $data);
     }
     //--------------------------------------------------------------------
 

@@ -101,6 +101,64 @@ class UserData extends BaseController
         session()->setFlashdata('success', 'Your account has been created. Please, activate your account');
         return redirect()->to('/');
     }
+    public function forgotPassword()
+    {
+        $validation = [
+            'email' => [
+                'rules' => 'required|valid_email'
+            ]
+        ];
+        if (!$this->validate($validation)) {
+            return redirect()->to('/auth/forgotpassword')->withInput();
+        }
+        $email = $this->request->getVar('email');
+        $user = $this->db->table('user')->getWhere([
+            'email' => $email,
+            'it_active' => 1
+        ])->getRowArray();
+        if ($user) {
+            $token = base64_encode(random_bytes(32));
+            $user_token = [
+                'email' => $email,
+                'token' => $token,
+                'date_created' => time()
+            ];
+
+            // insert ke databases
+            $this->db->table('user_token')->insert($user_token);
+
+            // kirim email
+            $this->_sendEmail($token, $email, 'forgot');
+
+            session()->setFlashdata('actionTrue', '<div class="alert alert-success text-left" role="alert">Please check your email to reset your password!</div>');
+            return redirect()->to('/auth/forgotpassword');
+        } else {
+            session()->setFlashdata('actionTrue', '<div class="alert alert-danger text-left" role="alert">Email is not registered or activated</div>');
+            return redirect()->to('/auth/forgotpassword');
+        }
+    }
+    public function changePassword()
+    {
+        $validation = [
+            "password" => [
+                'rules' => 'required|min_length[4]|matches[Repassword]'
+            ],
+            "Repassword" => [
+                'rules' => 'required|min_length[4]|matches[password]'
+            ]
+        ];
+        if (!$this->validate($validation)) {
+            return redirect()->to('/auth/changepassword')->withInput();
+        }
+        $password = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
+        $email = session()->get('reset_email');
+
+        $this->db->table('user')->update(['password' => $password], ['email' => $email]);
+        session()->remove('reset_email');
+
+        session()->setFlashdata('actionTrue', '<div class="alert alert-success" role="alert">Password has been change!</div>');
+        return redirect()->to('/');
+    }
     private function _sendEmail($token, $emailTarget, string $type)
     {
         // dd($emailTarget);
@@ -112,6 +170,9 @@ class UserData extends BaseController
         if ($type == 'verify') {
             $email->setSubject('Account Verification');
             $email->setMessage('Click this link to verify your account : <a href="' . base_url('auth') . '/verify?email=' . $emailTarget . '&token=' . urlencode($token) . '">Active</a>');
+        } elseif ($type == 'forgot') {
+            $email->setSubject('Reset Password');
+            $email->setMessage('Click this link to reset your password : <a href="' . base_url('auth') . '/resetpassword?email=' . $emailTarget . '&token=' . urlencode($token) . '">Reset Password</a>');
         }
         if (!$email->send()) {
             $email->printDebugger();

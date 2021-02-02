@@ -32,6 +32,22 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        const viewPw = document.getElementById('view');
+        const passwd = document.getElementsByClassName('password');
+        for (let i = 0; i < passwd.length; i++) {
+            passwd[i].type = 'password';
+        }
+        viewPw.addEventListener('click', () => {
+            for (let i = 0; i < passwd.length; i++) {
+                if (passwd[i].type == 'password') {
+                    passwd[i].type = 'text';
+                } else {
+                    passwd[i].type = 'password';
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
