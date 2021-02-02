@@ -111,7 +111,11 @@ class UserData extends BaseController
         $email->setTo($emailTarget);
         if ($type == 'verify') {
             $email->setSubject('Account Verification');
-            $email->setMessage('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $emailTarget . '&token=' . urlencode($token) . '">Active</a>');
+            $email->setMessage('Click this link to verify your account : <a href="' . base_url('auth') . '/verify?email=' . $emailTarget . '&token=' . urlencode($token) . '">Active</a>');
+        }
+        if (!$email->send()) {
+            $email->printDebugger();
+            die;
         }
     }
 }

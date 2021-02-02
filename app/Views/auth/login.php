@@ -45,7 +45,7 @@
                                             <?= $validation->getError('password'); ?>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-dark btn-user btn-block">
+                                    <button type="submit" class="btn btn-success btn-user btn-block">
                                         Login
                                     </button>
                                 </form>
