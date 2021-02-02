@@ -1,5 +1,5 @@
 <?= $this->extend('layout/template'); ?>
-<?= $this->section('template'); ?>
+<?= $this->section('auth'); ?>
 <div class="container">
 
     <div class="card o-hidden border-0 shadow-lg my-5 col-lg-10 mx-auto">
@@ -36,7 +36,7 @@
                                     <input type="password" name="password2" class="form-control form-control-user" id="password2" placeholder="Repeat Password">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                            <button type="submit" class="btn btn-dark btn-user btn-block">
                                 Register Account
                             </button>
                         </form>

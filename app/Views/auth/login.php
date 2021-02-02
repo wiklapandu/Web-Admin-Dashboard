@@ -1,5 +1,5 @@
 <?= $this->extend('layout/template'); ?>
-<?= $this->section('template'); ?>
+<?= $this->section('auth'); ?>
 <div class="container">
 
     <!-- Outer Row -->
@@ -45,7 +45,7 @@
                                             <?= $validation->getError('password'); ?>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit" class="btn btn-dark btn-user btn-block">
                                         Login
                                     </button>
                                 </form>

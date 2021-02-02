@@ -89,21 +89,21 @@ class UserData extends BaseController
             'token' => $token,
             'date_created' => time()
         ];
-
+        // Simpan data
         $this->userModel->save($data);
-        $this->db->table('user_token')->insert($user_token);
 
+        // Insert Token
+        $this->db->table('user_token')->insert($user_token);
 
         // kirim Email
         $this->_sendEmail($token, $email, 'verify');
-
 
         session()->setFlashdata('success', 'Your account has been created');
         return redirect()->to('/');
     }
     private function _sendEmail($token, $emailTarget, string $type)
     {
-
+        // dd($emailTarget);
         $email = \Config\Services::email();
         // $email->initialize($config);
 

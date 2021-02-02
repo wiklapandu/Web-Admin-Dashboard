@@ -20,9 +20,9 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-dark">
 
-    <?= $this->renderSection('template'); ?>
+    <?= $this->renderSection('auth'); ?>
     <!-- Bootstrap core JavaScript-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
