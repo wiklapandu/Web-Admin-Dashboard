@@ -17,11 +17,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back! Let's Login!</h1>
                                 </div>
-                                <?php if (session()->getFlashdata('actionTrue')) { ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <?= session()->getFlashdata('actionTrue'); ?>
-                                    </div>
-                                <?php } ?>
+                                <?= session()->getFlashdata('actionTrue'); ?>
                                 <?php if (session()->getFlashdata('success')) { ?>
                                     <div class="alert alert-success" role="alert">
                                         <strong>congratulations!</strong> <?= session()->getFlashdata('success'); ?> <strong>Please Login</strong>

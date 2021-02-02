@@ -98,7 +98,7 @@ class UserData extends BaseController
         // kirim Email
         $this->_sendEmail($token, $email, 'verify');
 
-        session()->setFlashdata('success', 'Your account has been created');
+        session()->setFlashdata('success', 'Your account has been created. Please, activate your account');
         return redirect()->to('/');
     }
     private function _sendEmail($token, $emailTarget, string $type)

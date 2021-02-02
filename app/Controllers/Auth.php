@@ -14,12 +14,13 @@ class Auth extends BaseController
 {
     protected $userModel;
     protected $menuModel;
-    protected $subdataModel;
+    protected $subdataModel, $db;
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->menuModel = new MenuModel();
         $this->subdataModel = new SubDataModel();
+        $this->db = \Config\Database::connect();
     }
     public function index()
     {
@@ -56,12 +57,38 @@ class Auth extends BaseController
     public function logout()
     {
         session()->destroy();
-        session()->setFlashdata('actionTrue', "you have successfully logged out");
+        session()->setFlashdata('actionTrue', '<div class="alert alert-success" role="alert">you have successfully logged out</div>');
         return redirect()->to('/');
     }
 
     public function verify()
     {
+        $email = $this->request->getVar('email');
+        $token = $this->request->getVar('token');
+        $user = $this->db->table('user')->getWhere(['email' => $email])->getRowArray();
+        if ($user) {
+            $user_token = $this->db->table('user_token')->getWhere(['token' => $token])->getRowArray();
+            if ($user_token) {
+                // Waktu Validation
+                if ((time() - $user_token['date_created']) < (60 * 60 * 24)) {
+                    $this->db->table('user')->update(['it_active' => 1], ['email' => $email]);
+                    $this->db->table('user_token')->delete(['email' => $email]);
+                    session()->setFlashdata('actionTrue', '<div class="alert alert-success" role="alert">' . $email . ' has been activated! Please login.</div>');
+                    return redirect()->to('/');
+                } else {
+                    $this->db->table('user')->delete(['email' => $email]);
+                    $this->db->table('user_token')->delete(['email' => $email]);
+                    session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Token expired.</div>');
+                    return redirect()->to('/');
+                }
+            } else {
+                session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Wrong token</div>');
+                return redirect()->to('/');
+            }
+        } else {
+            session()->setFlashdata('actionTrue', '<div class="alert alert-danger" role="alert">Account activation failed! Wrong email</div>');
+            return redirect()->to('/');
+        }
     }
     //--------------------------------------------------------------------
 
