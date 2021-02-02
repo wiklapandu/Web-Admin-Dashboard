@@ -61,6 +61,18 @@ class Auth extends BaseController
         return redirect()->to('/');
     }
 
+    public function forgotPassword()
+    {
+        if (session()->get('role_id')) {
+            return redirect()->to('/user');
+        }
+        $data = [
+            'title' => 'Login',
+            'validation' => \Config\Services::validation()
+        ];
+        return view('auth/login', $data);
+    }
+
     public function verify()
     {
         $email = $this->request->getVar('email');
