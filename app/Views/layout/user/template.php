@@ -258,6 +258,30 @@
             }
         });
     </script>
+    <script>
+        $('form .row').on('click', function(e) {
+            // console.log(e.target.getAttribute('id'));
+            if (e.target.getAttribute('id') == 'keyword' || e.target.getAttribute('id') == 'pages') {
+                e.target.addEventListener('keyup', function() {
+                    $.ajax({
+                        url: "<?= base_url('/author/index'); ?>",
+                        type: 'GET',
+                        data: {
+                            keyword: $('#keyword').val(),
+                            pages: $('#pages').val()
+                        },
+                        success: function() {
+                            if ($('#keyword').val() != "" || $('#pages').val() != "") {
+                                document.location.href = "<?= base_url('author?keyword='); ?>" + $('#keyword').val() + "&pages=" + $('#pages').val();
+                            } else {
+                                document.location.href = "<?= base_url('author'); ?>";
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -19,14 +19,17 @@ class Author extends BaseController
     public function index()
     {
         $page = $this->request->getVar('pages');
-        if ($page) {
-            $page = $this->request->getVar('pages');
+        $keyword = $this->request->getVar('keyword');
+        if ($keyword != "" || $page != "") {
+            $pageCount = $page;
+            $pagin = $this->userData->like('name', $keyword);
         } else {
-            $page = 10;
+            $pagin = $this->userData;
+            $pageCount = 10;
         }
         $data = [
             'user' => $this->userData->getAllDataByEmail(session()->get('email')),
-            'User' => $this->userData->paginate($page, 'user'),
+            'User' => $pagin->paginate($pageCount, 'user'),
             'pager' => $this->userData->pager,
             'title' => 'Users',
             'role' => $this->db->table('user_role')->get()->getResultArray(),
