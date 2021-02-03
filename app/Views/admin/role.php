@@ -65,10 +65,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/role/addrole" method="POST">
+            <form action="<?= base_url('/role/addrole'); ?>" method="POST">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="role" id="role" aria-describedby="emailHelp" placeholder="Role name">
+                        <input type="text" value="<?= old('role'); ?>" class="form-control" name="role" id="role" aria-describedby="emailHelp" placeholder="Role name">
                     </div>
                 </div>
                 <div class="modal-footer">

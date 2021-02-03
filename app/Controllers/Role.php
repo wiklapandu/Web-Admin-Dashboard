@@ -34,6 +34,23 @@ class Role extends BaseController
         ];
         return view('admin/role-edit', $data);
     }
+    public function addrole()
+    {
+        $validation = [
+            "role" => [
+                'rules' => 'required'
+            ]
+        ];
+        if (!$this->validate($validation)) {
+            return redirect()->to('/admin/role')->withInput();
+        }
+        $insert = [
+            "role" => $this->request->getPost('role')
+        ];
+        $this->db->table('user_role')->insert($insert);
+        session()->setFlashdata('success', 'Role has been created!');
+        return redirect()->to('/admin/role');
+    }
     public function roleaccess($id)
     {
         if (!session()->get('email')) {
@@ -54,6 +71,13 @@ class Role extends BaseController
             'db' => \Config\Database::connect()
         ];
         return view('admin/role-access', $data);
+    }
+    public function roledelete()
+    {
+        $roleId = $this->request->getPost('roleId');
+        $this->db->table('user_role')->delete(['id' => $roleId]);
+        session()->setFlashdata('success', 'Role has deleted');
+        return redirect()->to('/admin/role');
     }
     public function changeAccess()
     {

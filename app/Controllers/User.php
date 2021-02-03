@@ -66,8 +66,8 @@ class User extends BaseController
         }
         $data = [
             'id' => $user['id'],
-            'email' => $this->request->getVar('email'),
-            'name' => $this->request->getVar('name'),
+            'email' => $this->request->getPost('email'),
+            'name' => $this->request->getPost('name'),
             'image' => $imageName
         ];
         $this->userData->save($data);
@@ -90,7 +90,7 @@ class User extends BaseController
     }
     public function updatePassword()
     {
-        if ($this->request->getVar('auth') == 'true') {
+        if ($this->request->getPost('auth') == 'true') {
             $validation = [
                 'currentPassword' => [
                     'rules' => 'required'
@@ -116,8 +116,8 @@ class User extends BaseController
                 return redirect()->to('/user/changepassword')->withInput();
             }
             $passwordData = $this->userData->getAllDataByEmail(session()->get('email'))['password'];
-            $newPassword = $this->request->getVar('newPassword1');
-            $currentPassword = $this->request->getVar('currentPassword');
+            $newPassword = $this->request->getPost('newPassword1');
+            $currentPassword = $this->request->getPost('currentPassword');
             if (!password_verify($currentPassword, $passwordData)) {
                 session()->setFlashdata('error', "<div class='alert alert-danger' role='alert'>Wrong current password</div>");
                 return redirect()->to('/user/changepassword');

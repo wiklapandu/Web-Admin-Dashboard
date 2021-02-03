@@ -26,8 +26,8 @@ class UserData extends BaseController
         if (!$this->validate($validation)) {
             return redirect()->to('/')->withInput();
         }
-        $email = $this->request->getVar('email');
-        $password = $this->request->getVar('password');
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
         $user = $this->userModel->getAllDataByEmail($email);
         // User ada
         if ($user) {
@@ -111,7 +111,7 @@ class UserData extends BaseController
         if (!$this->validate($validation)) {
             return redirect()->to('/auth/forgotpassword')->withInput();
         }
-        $email = $this->request->getVar('email');
+        $email = $this->request->getPost('email');
         $user = $this->db->table('user')->getWhere([
             'email' => $email,
             'it_active' => 1
@@ -150,7 +150,7 @@ class UserData extends BaseController
         if (!$this->validate($validation)) {
             return redirect()->to('/auth/changepassword')->withInput();
         }
-        $password = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
+        $password = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         $email = session()->get('reset_email');
 
         $this->db->table('user')->update(['password' => $password], ['email' => $email]);

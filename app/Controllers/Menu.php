@@ -114,7 +114,7 @@ class Menu extends BaseController
             return redirect()->to('/menu')->withInput();
         }
         $data = [
-            'menu' => $this->request->getVar('menu')
+            'menu' => $this->request->getPost('menu')
         ];
         $this->menuModel->save($data);
         session()->setFlashdata('success', 'New Menu added!');
@@ -191,7 +191,7 @@ class Menu extends BaseController
                 "rules" => "required"
             ]
         ];
-        if ($this->request->getVar('notRobot') != "true") {
+        if ($this->request->getPost('notRobot') != "true") {
             session()->setFlashdata('textEr', "Please, Tick to make sure you're human");
             if (!$this->validate($validation)) {
                 return redirect()->to('/menu/edit/' . $id)->withInput();

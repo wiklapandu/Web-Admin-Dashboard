@@ -40,4 +40,8 @@ class UserModel extends Model
     {
         return $this->db->table($this->table)->where('email', session()->get('email'))->update(['password' => $password]);
     }
+    public function getAllData()
+    {
+        return $this->db->table($this->table)->get()->getResultArray();
+    }
 }
