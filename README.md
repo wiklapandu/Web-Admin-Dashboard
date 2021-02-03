@@ -5,8 +5,8 @@
 <li>
     Menu (hanya untuk Author dan Admin)
     <ul>
-        <lo>Menu Maker</lo>
-        <lo>Submenu Maker</lo>
+        <li>Menu Maker</li>
+        <li>Submenu Maker</li>
     </ul>
 </li>
 <li>Role dan Role Access Maker Admin</li>
