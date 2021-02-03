@@ -2,7 +2,13 @@
 <h5>Fitur Yang sedang dibuat</h5>
 <ul>
 <li>Dashboard Admin</li>
-<li>Menu dan Submenu Maker Admin</li>
+<li>
+    Menu (hanya untuk Author dan Admin)
+    <ul>
+        <lo>Menu Maker</lo>
+        <lo>Submenu Maker</lo>
+    </ul>
+</li>
 <li>Role dan Role Access Maker Admin</li>
 <li>Email Auth</li>
 <li>Forgot Password</li>
