@@ -169,7 +169,24 @@ class UserData extends BaseController
         $email->setTo($emailTarget);
         if ($type == 'verify') {
             $email->setSubject('Account Verification');
-            $email->setMessage('Click this link to verify your account : <a href="' . base_url('auth') . '/verify?email=' . $emailTarget . '&token=' . urlencode($token) . '">Active</a>');
+            $email->setMessage('
+                            <h2 style="color: black;">
+                                Please Verify Your Email Address
+                            </h2>
+                            <br>
+                            <a href="' . base_url('auth') . '/verify?email=' . $emailTarget . '&token=' . urlencode($token) . '" style="text-decoration: none; color: white; background-color: #007bff;padding: 10px; border-radius: 5px;">Verify your email</a>
+                                <br>
+                                <br>
+                            <p  style="color: black;">
+                                Hello ' . $emailTarget . ',
+                                <br>
+                                <br>
+                                Thank you for interest in Web Wikla.
+                                <br>
+                                <br>
+                                Welcome to our team
+                            </p>
+                    ');
         } elseif ($type == 'forgot') {
             $email->setSubject('Reset Password');
             $email->setMessage('Click this link to reset your password : <a href="' . base_url('auth') . '/resetpassword?email=' . $emailTarget . '&token=' . urlencode($token) . '">Reset Password</a>');
