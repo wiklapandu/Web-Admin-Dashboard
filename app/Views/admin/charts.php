@@ -5,9 +5,7 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">User Charts</h1>
-    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-        The charts below have been customized - for further customization options, please visit the <a target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-            documentation</a>.</p>
+    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, facilis!</p>
 
     <!-- Content Row -->
     <div class="row">
@@ -24,8 +22,6 @@
                         <canvas id="myAreaChart"></canvas>
                     </div>
                     <hr>
-                    Styling for the area chart can be found in the
-                    <code>/js/demo/chart-area-demo.js</code> file.
                 </div>
             </div>
 
@@ -39,8 +35,6 @@
                         <canvas id="myBarChart"></canvas>
                     </div>
                     <hr>
-                    Styling for the bar chart can be found in the
-                    <code>/js/demo/chart-bar-demo.js</code> file.
                 </div>
             </div>
 
@@ -59,8 +53,6 @@
                         <canvas id="myPieChart"></canvas>
                     </div>
                     <hr>
-                    Styling for the donut chart can be found in the
-                    <code>/js/demo/chart-pie-demo.js</code> file.
                 </div>
             </div>
         </div>
